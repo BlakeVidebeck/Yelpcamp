@@ -1,0 +1,46 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-lg-4 text-center border-right">
+			<h1><%= user.username %></h1>
+			<div class="card">
+				<img class="card-img-top" src="<%= user.avatar %>" alt="user profile image" />
+				<div class="card-body">
+					<h3 class="card-title">About Me</h3>
+					<p class="card-text"><%= user.description %></p>
+					<p>Joined <%= moment(user.createdAt).fromNow() %></p>
+					<p>Admin: <%= user.isAdmin %></p>
+				</div>
+				<% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+				<a class="btn btn-warning" href="/users/<%= user._id %>/edit">Edit</a>
+				<% } %>
+			</div>
+		</div>
+
+		<!-- campgrounds -->
+		<div class="col-md-6 col-lg-8 text-center">
+			<h3>My campgrounds</h3>
+			<hr />
+			<div class="row col-sm-12 m-0 p-0">
+				<% campgrounds.forEach(campground => { %>
+				<div class="col-lg-6">
+					<div class="card mb-2">
+						<img class="card-img-top" src="<%= campground.image %>" />
+						<div class="card-body">
+							<h4 class="card-title"><%= campground.name %></h4>
+							<p class="card-text text-truncate"><%= campground.description %></p>
+						</div>
+						<p>
+							<a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+						</p>
+					</div>
+				</div>
+				<% }) %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--prettier-ignore-->
+<%- include("../partials/footer") %>

@@ -1,0 +1,134 @@
+<%- include("../partials/header") %>
+
+<div class="container">
+	<div class="row">
+		<!--side bar-->
+		<div class="d-none d-lg-inline-block col-lg-3">
+			<p class="lead">YelpCamp</p>
+			<div class="list-group">
+				<li class="list-group-item active">Info 1</li>
+				<li class="list-group-item">Info 2</li>
+				<li class="list-group-item">Info 3</li>
+			</div>
+		</div>
+		<!-- main -->
+		<div class="col-sm-12 col-lg-9">
+			<div class="card mb-3">
+				<img class="card-img-top" src="<%= campground.image %>" />
+				<div class="card-body">
+					<h4 class="float-right">$<%= campground.price %>/night</h4>
+					<h4 class="card-title"><a><%= campground.name %></a></h4>
+					<p class="card-text"><%= campground.description %></p>
+					<p class="card-text">
+						<em>
+							Submitted By: <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a>, <%=
+							moment(campground.createdAt).fromNow() %>
+						</em>
+					</p>
+					<div class="float-right">
+						<% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
+						<!--edit button-->
+						<a class="btn btn-sm btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+						<!-- Delete button -->
+						<form class="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+							<button class="btn btn-sm btn-danger">Delete</button>
+						</form>
+						<% } %>
+					</div>
+				</div>
+			</div>
+
+			<div class="well" id="comments">
+				<form action="/campgrounds/<%= campground._id %>/comments" method="POST">
+					<div class="form-group d-inline">
+						<input
+							class="form-control form-control-sm d-inline-block"
+							style="width: 70%;"
+							type="text"
+							name="comment[text]"
+							placeholder="Create a new comment"
+							required
+						/>
+						<button class="btn btn-sm btn-primary">Add</button>
+					</div>
+				</form>
+				<hr />
+
+				<!-- display all comment -->
+				<% for(let comment of campground.comments.reverse()) { %>
+				<div class="row">
+					<div class="col-sm-9">
+						<a href="/users/<%= comment.author.id %>"
+							><img class="comment-thumbnail mr-1" height="40" width="40" src="<%= comment.author.avatar %>" />
+						</a>
+						<a href="/users/<%= comment.author.id %>">
+							<strong><%= comment.author.username %></strong>
+						</a>
+						<span class="ml-1 text-muted"><%= moment(comment.createdAt).fromNow() %></span>
+						<!-- edit comments form -->
+						<form
+							class="editComment ml-5"
+							style="display: none;"
+							action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=PUT"
+							method="POST"
+						>
+							<div class="form-group">
+								<input
+									class="form-control form-control-sm d-inline-block"
+									style="width: 85%;"
+									type="text"
+									name="comment[text]"
+									value="<%= comment.text %>"
+								/>
+								<button class="btn btn-sm btn-primary">Submit</button>
+							</div>
+						</form>
+
+						<!-- comments -->
+						<p class="comments mt-1 ml-5"><%= comment.text %></p>
+					</div>
+					<% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+					<div class="col-sm-3">
+						<div class="float-right">
+							<!-- edit button -->
+							<button class="edit btn btn-sm btn-warning">Edit</button>
+							<!-- delete button -->
+							<form
+								class="delete-form"
+								action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
+								method="POST"
+							>
+								<button class="btn btn-sm btn-danger">Remove</button>
+							</form>
+						</div>
+					</div>
+					<% } %>
+				</div>
+				<hr />
+				<% } %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- script to edit comment or not -->
+<script>
+	let buttons = document.querySelectorAll('.edit');
+	let editComments = document.querySelectorAll('.editComment');
+	let comments = document.querySelectorAll('.comments');
+
+	buttons.forEach((button, index) => {
+		button.addEventListener('click', e => {
+			if (editComments[index].style.display === 'none') {
+				editComments[index].style.display = 'block';
+				comments[index].style.display = 'none';
+			} else {
+				editComments[index].style.display = 'none';
+				comments[index].style.display = 'block';
+			}
+		});
+	});
+</script>
+
+<!--prettier-ignore-->
+<%- include("../partials/footer") %>

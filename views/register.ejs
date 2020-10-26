@@ -1,0 +1,52 @@
+<%- include("./partials/header") %>
+<div class="row">
+	<div class="col-md-4 col-lg-3" style="width: 30%; margin: 25px auto;">
+		<h1 class="text-center">Sign-up</h1>
+		<form action="/register" method="POST">
+			<div class="form-group">
+				<label for="username">Username *</label>
+				<input class="form-control" id="username" type="text" name="username" placeholder="username" required />
+			</div>
+			<div class="form-group">
+				<label for="password">Password *</label>
+				<input class="form-control" id="password" type="password" name="password" placeholder="password" required />
+			</div>
+			<div class="form-group">
+				<label for="firstName">First name</label>
+				<input class="form-control" id="firstName" type="text" name="firstName" placeholder="John" />
+			</div>
+			<div class="form-group">
+				<label for="lastName">Last name</label>
+				<input class="form-control" id="lastName" type="text" name="lastName" placeholder="Doe" />
+			</div>
+			<div class="form-group">
+				<label for="email">Email *</label>
+				<input class="form-control" id="email" type="email" name="email" placeholder="johndoe@gmail.com" required />
+			</div>
+			<div class="form-group">
+				<label for="avatar">Avatar picture</label>
+				<input class="form-control" id="avatar" type="text" name="avatar" placeholder="url" />
+			</div>
+			<label for="description">Tell us about yourself!</label>
+			<div class="form-group">
+				<textarea
+					class="form-control"
+					id="description"
+					name="description"
+					cols="5"
+					rows="5"
+					placeholder="I like camping"
+				></textarea>
+			</div>
+			<div class="form-group">
+				<label for="adminCode">Admin code</label>
+				<input class="form-control" id="adminCode" type="password" name="adminCode" placeholder="admin code" />
+			</div>
+			<div class="form-group">
+				<button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+			</div>
+		</form>
+		<a href="/campgrounds">Go Back</a>
+	</div>
+</div>
+<%- include("./partials/footer") %>

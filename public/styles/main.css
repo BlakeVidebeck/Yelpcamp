@@ -1,0 +1,16 @@
+.delete-form {
+	display: inline;
+}
+
+hr {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+button {
+	outline: none !important;
+}
+
+.comment-thumbnail {
+	border-radius: 50%;
+}
